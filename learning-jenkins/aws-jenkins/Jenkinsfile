@@ -31,6 +31,7 @@ pipeline {
 
         stage('Delete') {
             steps {
+                script {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 's3-jenkins', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh '''
     
