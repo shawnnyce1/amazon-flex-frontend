@@ -2,10 +2,14 @@ pipeline {
     agent any // Runs on any available Jenkins agent
     stages {
         stage('clone github repo') {
-            steps { 
-                git branch: 'main', credentialsId: 's3-git', url: 'https://github.com/shawnnyce1/jenkins_s3.git'
-                  
-    
+            steps {
+                checkout([$class: 'GitSCM', 
+                    branches: [[name: 'main']], 
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/shawnnyce1/jenkins_s3.git',
+                        credentialsId: 's3-git'
+                    ]]
+                ])
             }
         }
         stage('Create s3 bucket') {
