@@ -16,12 +16,12 @@ pipeline {
                 script {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 's3-jenkins', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
 
-                    ...
+                sh '''
     
 
                 aws s3 mb s3://too-cool-s3 bucket
                 sleep 60
-                ...
+                '''
                 }
 
                 }
@@ -32,10 +32,10 @@ pipeline {
         stage('Delete') {
             steps {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 's3-jenkins', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh ...
+                    sh '''
     
                 aws s3 rb s3://too-cool-s3 bucket
-                ...
+                '''
                 
             }
         }
