@@ -3,13 +3,13 @@ pipeline {
     stages {
         stage('clone github repo') {
             steps {
-                git branch: 'main', credentialsId: 'jenkins-github-credentials', url: 'https://github.com/shawnnyce1/jenkins_s3'
+                git branch: 'main', credentialsId: 's3-git', url: 'https://github.com/shawnnyce1/jenkins_s3.git'
             }
         }
         stage('Create s3_bucket') {
             steps {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-s3', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh 'aws s3 mb s3://jenkins-aws-s3-bucket || echo "Bucket may already exist, continuing"'
+                    sh 'aws s3 mb s3://jenkinsawss3bucket || echo "Bucket may already exist, continuing"'
                     sleep 150
                 }
             }
@@ -17,7 +17,7 @@ pipeline {
         stage('Delete') {
             steps {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-s3', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh 'aws s3 rb s3://jenkins-aws-s3-bucket || echo "Bucket may not exist or deletion failed, continuing"'
+                    sh 'aws s3 rb s3://jenkinsawss3bucket || echo "Bucket may not exist or deletion failed, continuing"'
                 }
             }
         }
