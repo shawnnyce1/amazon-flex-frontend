@@ -3,14 +3,8 @@ pipeline {
     stages {
         stage('clone github repo') {
             steps {
-                checkout([$class: 'GitSCM', 
-                    branches: [[name: 'main']], 
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/shawnnyce1/jenkins_s3.git',
-                        credentialsId: 's3-git'
-                    ]],
-                    extensions: [[$class: 'CloneOption', noTags: false, shallow: false, depth: 0]]
-                ])
+               
+                git branch: 'main', credentialsId: 'jenkins-github-credentials', url: 'https://github.com/shawnnyce1/jenkins_s3'
             }
         }
         stage('Create s3 bucket') {
