@@ -20,7 +20,7 @@ pipeline {
     
 
                 aws s3 mb s3://too-cool-s3 bucket
-                sleep 120
+                sleep 60
                 ...
                 }
 
