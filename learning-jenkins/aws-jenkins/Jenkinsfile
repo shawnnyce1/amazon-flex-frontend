@@ -1,33 +1,43 @@
 pipeline {
-    agent any // Runs on any available Jenkins agent
+    agent any
     stages {
-        stage('clone github repo') {
+        stage('clone github') {
             steps {
-                git branch: 'main', credentialsId: 's3-git', url: 'https://github.com/shawnnyce1/jenkins_s3.git'
+                script {
+                git branch: 'main', credentialsId: 'jenkins-s3-cred', url: 'https://github.com/shawnnyce1/jenkins_s3.git'
+                }
+            }
             }
         }
-        stage('Create s3_bucket') {
+
+
+        stage('create S3 Bucket') {
             steps {
-                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-s3', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh 'aws s3 mb s3://jenkinsawss3bucket || echo "Bucket may already exist, continuing"'
-                    sleep 150
+                script {
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 's3-jenkins', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+
+                    sh...
+    
+
+                aws s3 mb s3://too-cool-s3 bucket
+                sleep 120
+                ...
+                }
+
                 }
             }
         }
+
+
         stage('Delete') {
             steps {
-                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-s3', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh 'aws s3 rb s3://jenkinsawss3bucket || echo "Bucket may not exist or deletion failed, continuing"'
-                }
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 's3-jenkins', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    sh ...
+    
+                aws s3 rb s3://too-cool-s3 bucket
+                ...
+                
             }
-        }
-    }
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed.'
         }
     }
 }
