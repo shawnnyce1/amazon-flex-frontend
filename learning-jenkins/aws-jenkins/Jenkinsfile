@@ -8,26 +8,23 @@ pipeline {
                     userRemoteConfigs: [[
                         url: 'https://github.com/shawnnyce1/jenkins_s3.git',
                         credentialsId: 's3-git'
-                    ]]
+                    ]],
+                    extensions: [[$class: 'CloneOption', noTags: false, shallow: false, depth: 0]]
                 ])
             }
         }
         stage('Create s3 bucket') {
             steps {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-s3', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh ...
-                    'aws s3 mb s3://jenkins-aws-s3-bucket'
+                    sh 'aws s3 mb s3://jenkins-aws-s3-bucket'
                     sleep 150
-                    ...
                 }
             }
         }
         stage('Delete') {
             steps {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-s3', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh ...
-                     'aws s3 rb s3://jenkins-aws-s3-bucket'
-                     ...
+                    sh 'aws s3 rb s3://jenkins-aws-s3-bucket'
                 }
             }
         }
