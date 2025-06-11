@@ -17,7 +17,7 @@ pipeline {
                 script {
                     
                           sh """
-                          "cd /var/lib/jenkins/workspace/docker-jenkins/learning-jenkins/docker"
+                          "dir('LEARNING-JENKINS/docker')"
                           "docker build -t oxer-html-image ."
                            docker push shawnnyce2/oxer-html
                         
