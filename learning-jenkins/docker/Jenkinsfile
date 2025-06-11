@@ -14,14 +14,15 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                script {
+                dir('learning-jenkins/docker') {
+                  script {
                     
                           sh """
-                          "dir('learning-jenkins/docker')"
-                          "docker build -t oxer-html-image ."
-                           docker push shawnnyce2/oxer-html
-                        
-                          """
+                           
+                
+                           docker build -t shawnnyce2/oxer-html:v001 .
+                           """
+                  }   
                     }
                 }
             }
@@ -31,7 +32,10 @@ pipeline {
             steps {
                 script {
                         sh """
-                        "docker push shawnnyce2/oxer-html-repo:v001."
+                       withCredentials([usernamePassword(credentialsId: 'docker-jenkins', passwordVariable: 'passwords', usernameVariable: 'username')])  {
+                        docker login --username="$username" --password="$passwords"
+                        docker tag oxer-html-image/oxer-html-repo:v001
+                        "docker push shawnnyce2/oxer-html:v001"
                         """
                     }
                 }
