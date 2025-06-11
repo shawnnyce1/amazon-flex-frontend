@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone github Repo') {
+            steps {
+                script {
+                    git branch: 'main', 
+                    credentialsId: 'jenkins-s3-cred', 
+                    url: 'https://github.com/shawnnyce1/jenkins_s3.git'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    
+                          sh """
+                          "cd ${WORKSPACE}/docker"
+                          "docker build -t oxer-html-image ."
+                           docker push shawnnyce2/oxer-html
+                        
+                          """
+                    }
+                }
+            }
+        
+
+        stage('Push to DockerHub') {
+            steps {
+                script {
+                        sh """
+                        "docker push shawnnyce2/oxer-html-repo:v001."
+                        """
+                    }
+                }
+            }
+        
+    }
+}
