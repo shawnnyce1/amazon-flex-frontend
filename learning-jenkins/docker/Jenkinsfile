@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     git branch: 'main', 
-                    credentialsId: 'jenkins-s3-cred', 
+                    credentialsId: 'github login', 
                     url: 'https://github.com/shawnnyce1/jenkins_s3.git'
                 }
             }
