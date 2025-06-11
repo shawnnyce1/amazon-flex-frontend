@@ -33,7 +33,7 @@ pipeline {
                 script {
                         sh """
                        withCredentials([usernamePassword(credentialsId: 'docker-jenkins', passwordVariable: 'passwords', usernameVariable: 'username')])  {
-                        docker login --username="$username" --password="$passwords"
+                       
                         docker tag oxer-html-image/oxer-html-repo:v001
                         "docker push shawnnyce2/oxer-html:v001"
                         """
