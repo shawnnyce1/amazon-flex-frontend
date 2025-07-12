@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Amazon Flex Frontend",
+    "slug": "amazon-flex-frontend",
+    "version": "1.0.0",
+    "orientation": "portrait",
+
+    "userInterfaceStyle": "light",
+
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+
+
+  }
+}
