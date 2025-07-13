@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone github Repo') {
+            steps {
+                script {
+                    git branch: 'main', 
+                    credentialsId: 'github login', 
+                    url: 'https://github.com/shawnnyce1/jenkins_s3.git'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('learning-jenkins/docker') {
+                  script {
+                    
+                          sh """
+                           
+                
+                           docker build -t shawnnyce2/oxer-html:v001 .
+                           """
+                  }   
+                    }
+                }
+            }
+        
+
+        stage('Push to DockerHub') {
+            steps {
+                script {
+                        sh """
+                       withCredentials([usernamePassword(credentialsId: 'docker-jenkins', passwordVariable: 'passwords', usernameVariable: 'username')])  {
+                       
+                        docker tag oxer-html-image/oxer-html-repo:v001
+                        "docker push shawnnyce2/oxer-html:v001"
+                        """
+                    }
+                }
+            }
+        
+    }
+}
