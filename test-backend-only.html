@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Amazon Flex Test</title>
+</head>
+<body>
+    <h1>Amazon Flex Backend Test</h1>
+    
+    <h2>Login Test</h2>
+    <input type="email" id="email" placeholder="Amazon Flex Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="testLogin()">Test Login</button>
+    
+    <h2>Block Test</h2>
+    <input type="number" id="minRate" placeholder="Min $/hour" value="25">
+    <button onclick="testBlocks()">Test Blocks</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch('http://localhost:8080/api/flex/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({email, password})
+                });
+                const data = await response.json();
+                document.getElementById('result').innerHTML = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error: ' + error.message;
+            }
+        }
+        
+        async function testBlocks() {
+            const minRate = document.getElementById('minRate').value;
+            
+            try {
+                const response = await fetch('http://localhost:8080/api/flex/blocks/filter', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({minRate: parseFloat(minRate)})
+                });
+                const data = await response.json();
+                document.getElementById('result').innerHTML = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
